@@ -31,8 +31,11 @@
  */
 
 // History:
-// 11-14-2023 MW 	Add miiInit() function
-//					Change main() function
+// 11-14-2023 MW 	Change to work with Marvell switch controller 88E6097F:
+//			Add miiInit() function to enable MDIO control
+//			Force the speed, duplex and link up for switch controller port9 to enable
+//			the communication between TI335x and switch controller
+//			Change main() function
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -227,8 +230,11 @@ int miiInit(void)
 	{
 		printf( "miiInit: PHY address: %d\n", phy_address);
 	}
-
-    return 0;
+	
+	// Force switch controller P9 to 100Mps Full Duplex and Link Up
+	writereg( OFFSET_PTR( mdiobase , MDIO_USERACCESS0_OFFSET) , 25 , 1 , 0x003D );
+	
+	return 0;
 }
 
 int main(int argc, char **argv) {
