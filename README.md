@@ -29,7 +29,7 @@ Change Linux device tree to use fixed-link PHY driver, not davinci_mdio driver. 
  status = "okay";
 };
 
-To use Marvell DSDT, you must be able to read and write TI3352 MDIO registers. Here is the method we use.
+To use Marvell DSDT, you must be able to read and write TI3352 MDIO registers. Here is the method I use.
 
 a). Access TI335x MDIO controller from Linux userspace with “mmap” command. In AM3352 the MDIO controller address is 0x4a101000, map this address and the length is 0x90 bytes.
 
