@@ -1,4 +1,4 @@
-# TI335x MII
+# TI335x MII Interface
 Linux TI335x: MII Connects to Marvell Switch 88E6097F
 
 TI3352 connects to Marvell switch controller 88E6097F via MII. Switch controller port 9 acts as a PHY and connects to TI3352 MAC 0. Linux kernel is 4.19. User application uses Marvell DSDT tool to control switch registers.
