@@ -1,7 +1,8 @@
-# TI335x MII Interface
-Linux TI335x: MII Connects to Marvell Switch 88E6097F
+# TI AM335x MDIO Interface Programming
 
-TI3352 connects to Marvell switch controller 88E6097F via MII. Switch controller port 9 acts as a PHY and connects to TI3352 MAC 0. Linux kernel is 4.19. User application uses Marvell DSDT tool to control switch registers.
+TI AM3352 processor connects to Marvell switch controller 88E6097F via MII on a customer board. Switch controller port 9 acts as a PHY and connects to AM3352 MAC 0. AM335x runs Linux kernel 4.19. User application uses Marvell DSDT tool to control switch registers. 
+
+TI does not support external Ethernet switches. It only supports Ethernet PHYs. It is not a trivial job to change Davinci MDIO driver for switches. It is much easier to access MDIO interface directly by modifying the PHY driver.  
 
 Hardware:
 
@@ -29,9 +30,9 @@ Change Linux device tree to use fixed-link PHY driver, not davinci_mdio driver. 
  status = "okay";
 };
 
-To use Marvell DSDT, you must be able to read and write TI3352 MDIO registers. Here is the method I use.
+To use Marvell DSDT, you must be able to read and write AM3352 MDIO registers. Here is the method I use.
 
-a). Access TI335x MDIO controller from Linux userspace with “mmap” command. In AM3352 the MDIO controller address is 0x4a101000, map this address and the length is 0x90 bytes.
+a). Access AM335x MDIO controller from Linux userspace with “mmap” command. In AM3352 the MDIO controller address is 0x4a101000, map this address and the length is 0x90 bytes.
 
 b). Enable MDIO control in the address 0x4a101004 ( MDIOCONTROL register) with data 0x410000ff.
 
@@ -41,5 +42,5 @@ d). 88E6097F port registers: PHY address from 16 (0x10, port0) to 26 (0x1a, port
 
 Read/Write address 25 for port 9 registers:
 Read Register 0: last 3 bits show Px_MODE[2:0] settings. Should be 010. 
-Write 0x003D to Register 1: enable communication between TI and switch controller P9. --Very Importmant.
+Write 0x003D to Register 1: enable communication between TI processor and switch controller P9. --Very Importmant.
 
